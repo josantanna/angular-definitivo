@@ -5,67 +5,59 @@
         <app-card titulo="Veículo" class="dash-card">
           <div class="card-form">
             <form [formGroup]="selecionarCarro">
-              <select name="" id="" formControlName = "lista">
-                <option value=""></option>
+              <select name="" id="" formControlName="lista">
+                <option value="">Selecione um veículo</option>
                 <option *ngFor="let carro of carrosList" [value]="carro.id">{{carro.vehicle}}</option>
               </select>
             </form>
           </div>
         </app-card>
-        <app-card class="dash-card" titulo="Total de Vendas">{{ totalvenda }}</app-card>
-        <app-card class="dash-card" titulo="Conectados">{{ connected }}</app-card>
-        <app-card class="dash-card" titulo="Update Software">{{ softwareUpdates }}</app-card>
+        <app-card class="dash-card" titulo="Total de Vendas">{{ totalvenda | number }}</app-card>
+        <app-card class="dash-card" titulo="Conectados">{{ connected | number }}</app-card>
+        <app-card class="dash-card" titulo="Update Software">{{ softwareUpdates | number }}</app-card>
       </div>
 
       <div *ngIf="vehicleImage" style="text-align: center; margin-top: 2rem;">
-        <img [src]="vehicleImage" alt="Imagem do veículo selecionado" style="max-width: 300px;">
-      </div>
-      
-      <!-- <input type="text" placeholder="Digite o nome do modelo">
-      <div class="vehicle-options">
-        <div *ngFor="let vehicle of vehicles " 
-             class="vehicle-option" 
-             (click)="onVehicleSelect(vehicle)">
-          {{ vehicle.nome }}
-        </div>
-      </div>
-    </div> -->
-  
-    <!-- <div *ngIf="selectedVehicle" class="stats-container">
-      <div class="stat-card card">
-        <h4>Total de Vendas</h4>
-        <p>{{ selectedVehicle.vendas }}</p>
-      </div>
-      <div class="stat-card card">
-        <h4>Veículos Conectados</h4>
-        <p>{{ selectedVehicle.conectados }}</p>
-      </div>
-      <div class="stat-card card">
-        <h4>Software Atualizado</h4>
-        <p>{{ selectedVehicle.atualizados }}</p>
-      </div>
-    </div> -->
-  
-    <!-- <div *ngIf="selectedVehicle" class="vehicle-image">
-      <img [src]="'assets/' + selectedVehicle.imagem" [alt]="selectedVehicle.nome">
+        <img [src]="vehicleImage" alt="Imagem do veículo selecionado" style="max-width: 500px;">
+      </div>  
     </div>
-   -->
+   
     <div class="data-table card">
       <h3>Dados dos Veículos</h3>
-      <input type="text" placeholder="Buscar por código">
-      <table>
+      <form [formGroup]="buscarVeiculo" (ngSubmit)="buscarPorVin()">
+        <input 
+          type="text" 
+          placeholder="Buscar por código (ex: 2FRHDUYS2Y63NHD22454)" 
+          formControlName="vin"
+        >
+        <button type="submit">Buscar</button>
+      </form>
+      
+      <div *ngIf="isLoading" class="loading">Carregando...</div>
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+      
+      <table *ngIf="vehicleData">
         <thead>
           <tr>
             <th>Código</th>
             <th>Modelo</th>
             <th>Status</th>
-            <th>Última Atualização</th>
-            <th>Versão Software</th>
+            <th>Odômetro</th>
+            <th>Combustível</th>
           </tr>
         </thead>
         <tbody>
-         
+          <tr>
+            <td>{{ buscarVeiculo.get('vin')?.value }}</td>
+            <td>{{ selectedVehicle?.vehicle || 'N/A' }}</td>
+            <td [class.status-on]="vehicleData.status === 'on'" 
+                [class.status-off]="vehicleData.status === 'off'">
+              {{ vehicleData.status === 'on' ? 'Ligado' : 'Desligado' }}
+            </td>
+            <td>{{ vehicleData.odometro | number }} km</td>
+            <td>{{ vehicleData.nivelCombustivel }}%</td>
+          </tr>
         </tbody>
       </table>
     </div>
-  </div>
+</div>

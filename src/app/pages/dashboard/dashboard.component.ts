@@ -13,6 +13,15 @@ interface Vehicle {
   img: string
 }
 
+interface VehicleData {
+  id: number,
+  odometro: number,
+  nivelCombustivel: number,
+  status: string,
+  lat: number,
+  long: number
+}
+
 interface Vehicles extends Array<Vehicle> {}
 interface ApiVehicle {
   vehicles: Vehicles
@@ -27,7 +36,7 @@ interface ApiVehicle {
 export class DashboardComponent implements OnInit {
   vehicles: any[] = [];
   selectedVehicle: any = null;
-  vehicleData: any[] = [];
+  vehicleData: VehicleData | null = null;
   searchTerm: string = '';
   dataSearchTerm: string = '';
   carrosList: Vehicles = [];
@@ -36,11 +45,18 @@ export class DashboardComponent implements OnInit {
   connected!: number;
   softwareUpdates!: number;
   vehicleImage: string = '';
+  vinCode: string = '';
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   constructor(private apiService: ApiService) {}
 
   selecionarCarro = new FormGroup({
     lista: new FormControl()
+  });
+
+  buscarVeiculo = new FormGroup({
+    vin: new FormControl('')
   });
 
   chamarApiCarro() {
@@ -50,6 +66,38 @@ export class DashboardComponent implements OnInit {
         this.carrosList = carJson.vehicles;
       }
     );
+  }
+
+  buscarPorVin() {
+    const vin = this.buscarVeiculo.get('vin')?.value;
+    if (!vin) return;
+
+    this.isLoading = true;
+    this.errorMessage = '';
+    
+    fetch("http://localhost:3001/vehicleData", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ vin })
+    })
+    .then(async (resp) => {
+      if (!resp.ok) {
+        const error = await resp.json();
+        throw new Error(error.message || 'Erro ao buscar dados do veículo');
+      }
+      return resp.json();
+    })
+    .then(data => {
+      this.vehicleData = data;
+      this.isLoading = false;
+    })
+    .catch(error => {
+      this.errorMessage = error.message;
+      this.vehicleData = null;
+      this.isLoading = false;
+    });
   }
 
   ngOnInit(): void {
@@ -66,16 +114,4 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
-  onVehicleSelect(vehicle: any): void {
-    this.selectedVehicle = vehicle;
-  }
-
-  get filteredData(): any[] {
-    if (!this.dataSearchTerm) return this.vehicleData;
-    return this.vehicleData.filter(item =>
-      item.codigo.toLowerCase().includes(this.dataSearchTerm.toLowerCase())
-    );
-  }
-  
 }
