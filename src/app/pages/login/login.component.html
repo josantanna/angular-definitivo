@@ -1,26 +1,28 @@
-<div class="login-page">
-  <div class="logo-container">
-    <img src="http://localhost:3001/img/ford.png" alt="Ford Logo" class="logo">
+<div class="d-flex flex-column bg-white" style="height: 100vh; overflow: hidden">
+
+  <div class="d-flex justify-content-end p-5">
+    <img src="http://localhost:3001/img/ford.png" alt="Ford Logo" style="height: 50px;">
   </div>
   
-  <div class="content-container">
-    <div class="car-image">
-      <img src="http://localhost:3001/img/ranger.png" alt="Ranger" class="car">
+  <div class="d-flex flex-grow-1" style="overflow: hidden">
+
+    <div class="d-flex align-items-center justify-content-start p-5 w-50">
+      <img src="http://localhost:3001/img/ranger.png" alt="Ranger" class="img-fluid" style="max-height: 70vh; object-fit: contain;">
     </div>
     
-    <div class="login-container">
-      <div class="card">
-        <h2>Boas Vindas</h2>
+    <div class="d-flex justify-content-center align-items-center p-5 w-50">
+      <div class="card p-5 bg-white rounded shadow" style="width: 300px;">
+        <h2 class="text-center mb-4 text-dark">Boas Vindas</h2>
         <form (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="username">Insira seu e-mail</label>
-            <input type="text" id="username" [(ngModel)]="username" name="username" required>
+          <div class="mb-3">
+            <label for="username" class="form-label fw-medium">Insira seu e-mail</label>
+            <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" required>
           </div>
-          <div class="form-group">
-            <label for="password">Insira sua senha</label>
-            <input type="password" id="password" [(ngModel)]="password" name="password" required>
+          <div class="mb-3">
+            <label for="password" class="form-label fw-medium">Insira sua senha</label>
+            <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" required>
           </div>
-          <button type="submit" class="btn btn-primary">Login</button>
+          <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Login</button>
         </form>
       </div>
     </div>

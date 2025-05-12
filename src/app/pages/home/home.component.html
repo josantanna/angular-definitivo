@@ -1,21 +1,39 @@
-<div class="home-container">
-  <div class="logo-container">
-    <img src="http://localhost:3001/img/ford.png" alt="logo" class="logo">
-  </div>
+<div class="position-relative bg-white vh-100 overflow-hidden">
   
-  <div class="background-image">
-    <img src="http://localhost:3001/img/ranger.png" alt="Ford Ranger" class="car-image">
+  <div class="position-absolute top-20 start-20 z-3" #menuContainer>
+    <div class="dropdown position-relative">
+      <button class="btn btn-secondary dropdown-toggle" (click)="toggleMenu()">Menu</button>
+      <div class="dropdown-menu dropdown-menu-start show" *ngIf="menuAberto">
+        <a class="dropdown-item" (click)="acessarDashboard()">Acessar Dashboard</a>
+        <a class="dropdown-item" (click)="retornarLogin()">Retornar ao início</a>
+      </div>
+    </div>
   </div>
+
   
-  <div class="content-center">
-    <app-card class="home-card" titulo="Sistema de dados da Ford">Seja Bem vindo(a)</app-card>
-    
-    <div class="dashboard-link" (click)="acessarDashboard()">
-      <a routerLink="/dashboard">Acessar Dashboard</a>
-    </div>
-    <div class="dashboard-link" (click)="retornarLogin()">
-      <a routerLink="/dashboard">Retornar ao início</a>
-    </div>
+  <div class="position-absolute top-20 end-20 z-3">
+    <img src="http://localhost:3001/img/ford.png" alt="logo" style="width: 100px;">
+  </div>
+
+  
+  <div class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center z-1 opacity-75">
+    <img src="http://localhost:3001/img/ranger.png" alt="Ford Ranger" class="img-fluid mw-80 mh-80 object-fit-contain">
+  </div>
+
+  
+  <div class="position-relative z-2 text-center d-flex flex-column align-items-center justify-content-center gap-5 h-100">
+    <app-card class="home-card p-4 rounded text-center"
+      style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1);">
+      <div class="text-white welcome-text">
+        <h2 class="fw-bold mb-3 text-uppercase" 
+            style="font-size: 1.2rem; letter-spacing: 3px; text-shadow: 0 2px 8px rgba(0,0,0,0.5)">
+          Sistema de dados da Ford
+        </h2>
+        <p class="lead mb-0" 
+           style="font-size: 1.3rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3)">
+          Seja Bem-vindo(a)
+        </p>
+      </div>
+    </app-card>
   </div>
 </div>
-
