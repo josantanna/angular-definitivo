@@ -18,4 +18,7 @@ export class HomeComponent {
   acessarDashboard(){
     this.router.navigate(['/dashboard'])
   }
+  retornarLogin(){
+    this.router.navigate(['/login'])
+  }
 }

@@ -1,5 +1,11 @@
 <div class="dashboard-container">
     <div class="search-card card">
+      <div class="dashboard-link" (click)="retornarHome()">
+      <a routerLink="/dashboard">Home</a>
+      <div class="dashboard-link" (click)="logout()">
+      <a routerLink="/dashboard">Sair</a>
+    </div>
+    </div>
       <h3>Buscar Veículo</h3>
       <div style="display: flex; flex-direction: row; gap: 1rem; overflow-x: auto;">
         <app-card titulo="Veículo" class="dash-card">

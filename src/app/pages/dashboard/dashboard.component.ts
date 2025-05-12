@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../componente/card/card.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface Vehicle {
   id: number,
@@ -49,7 +50,10 @@ export class DashboardComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = '';
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router
+  ) {}
 
   selecionarCarro = new FormGroup({
     lista: new FormControl()
@@ -66,6 +70,13 @@ export class DashboardComponent implements OnInit {
         this.carrosList = carJson.vehicles;
       }
     );
+  }
+
+  retornarHome() {
+    this.router.navigate(['/home']);
+  }
+   logout() {
+    this.router.navigate(['/login']);
   }
 
   buscarPorVin() {
